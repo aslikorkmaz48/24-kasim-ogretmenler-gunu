@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Öğretmenler Günü Kartı</title>
+    <script src="/_sdk/element_sdk.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Georgia', serif;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        
+        html {
+            height: 100%;
+        }
+        
+        .container {
+            width: 100%;
+            min-height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .card {
+            width: 100%;
+            max-width: 700px;
+            border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(63, 81, 181, 0.15), 0 5px 15px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 3px solid rgba(63, 81, 181, 0.1);
+        }
+        
+        @media (hover: hover) and (pointer: fine) {
+            .card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 30px 80px rgba(63, 81, 181, 0.25), 0 10px 25px rgba(0, 0, 0, 0.12);
+            }
+        }
+        
+        .card:active {
+            transform: scale(0.98);
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                padding: 40px;
+            }
+            .card {
+                padding: 60px 50px;
+            }
+        }
+        
+        .decoration {
+            position: absolute;
+            opacity: 0.4;
+            pointer-events: none;
+            font-size: 40px;
+            filter: drop-shadow(0 2px 4px rgba(63, 81, 181, 0.3));
+        }
+        
+        .decoration.top-left {
+            top: 10px;
+            left: 10px;
+            transform: rotate(-15deg);
+        }
+        
+        .decoration.bottom-right {
+            bottom: 10px;
+            right: 10px;
+            transform: rotate(15deg);
+        }
+        
+        .decoration.top-right {
+            top: 15px;
+            right: 15px;
+            transform: rotate(25deg);
+        }
+        
+        .decoration.bottom-left {
+            bottom: 15px;
+            left: 15px;
+            transform: rotate(-25deg);
+        }
+        
+        .decoration.center-left {
+            top: 50%;
+            left: 5px;
+            transform: translateY(-50%) rotate(-10deg);
+        }
+        
+        .decoration.center-right {
+            top: 50%;
+            right: 5px;
+            transform: translateY(-50%) rotate(10deg);
+        }
+        
+        @media (min-width: 768px) {
+            .decoration {
+                opacity: 0.3;
+                font-size: 70px;
+            }
+            .decoration.top-left {
+                top: 20px;
+                left: 20px;
+            }
+            .decoration.bottom-right {
+                bottom: 20px;
+                right: 20px;
+            }
+            .decoration.top-right {
+                top: 25px;
+                right: 25px;
+            }
+            .decoration.bottom-left {
+                bottom: 25px;
+                left: 25px;
+            }
+            .decoration.center-left {
+                left: 15px;
+            }
+            .decoration.center-right {
+                right: 15px;
+            }
+        }
+        
+        .content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            line-height: 1.3;
+            word-wrap: break-word;
+            background: linear-gradient(135deg, #3f51b5 0%, #1a237e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 10px rgba(63, 81, 181, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            margin-bottom: 25px;
+            font-style: italic;
+            opacity: 0.9;
+        }
+        
+        .message-box {
+            padding: 20px;
+            border-radius: 20px;
+            margin: 20px 0;
+            line-height: 1.7;
+            font-size: 15px;
+            border: 2px solid rgba(63, 81, 181, 0.15);
+            box-shadow: 0 4px 15px rgba(63, 81, 181, 0.08);
+        }
+        
+        .teacher-name {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 25px 0 15px 0;
+            word-wrap: break-word;
+        }
+        
+        .signature {
+            font-size: 16px;
+            font-style: italic;
+            margin-top: 25px;
+        }
+        
+        @media (min-width: 768px) {
+            .title {
+                font-size: 42px;
+                margin-bottom: 15px;
+            }
+            .subtitle {
+                font-size: 22px;
+                margin-bottom: 40px;
+            }
+            .message-box {
+                padding: 30px;
+                border-radius: 15px;
+                margin: 30px 0;
+                font-size: 18px;
+                line-height: 1.8;
+            }
+            .teacher-name {
+                font-size: 28px;
+                margin: 30px 0 20px 0;
+            }
+            .signature {
+                font-size: 20px;
+                margin-top: 40px;
+            }
+        }
+        
+        .heart-container {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+            font-size: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .heart-container {
+                gap: 10px;
+                margin: 30px 0;
+                font-size: 24px;
+            }
+        }
+        
+        .heart {
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        
+        .heart:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .heart:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes heartbeat {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(1.2);
+            }
+            50% {
+                transform: scale(1);
+            }
+        }
+        
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            animation: sparkle 3s ease-in-out infinite;
+            font-size: 55px;
+            opacity: 0.7;
+            filter: drop-shadow(0 0 12px rgba(255, 105, 180, 0.9));
+        }
+        
+        .sparkle1 {
+            top: 12%;
+            left: 12%;
+            animation-delay: 0s;
+        }
+        
+        .sparkle2 {
+            top: 18%;
+            right: 12%;
+            animation-delay: 0.7s;
+        }
+        
+        .sparkle3 {
+            bottom: 18%;
+            left: 15%;
+            animation-delay: 1.4s;
+        }
+        
+        .sparkle4 {
+            bottom: 22%;
+            right: 12%;
+            animation-delay: 2.1s;
+        }
+        
+        @media (min-width: 768px) {
+            .sparkle {
+                font-size: 80px;
+            }
+        }
+        
+        @keyframes sparkle {
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: scale(0.9) rotate(0deg);
+            }
+            50% {
+                opacity: 0.9;
+                transform: scale(1.4) rotate(15deg);
+            }
+        }
+    </style>
+    <style>
+        @view-transition {
+            navigation: auto;
+        }
+    </style>
+    <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+    <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card" id="card">
+            <div class="decoration top-left">
+                🌹
+            </div>
+            <div class="decoration top-right">
+                🌸
+            </div>
+            <div class="decoration bottom-left">
+                💐
+            </div>
+            <div class="decoration bottom-right">
+                🌺
+            </div>
+            <div class="decoration center-left">
+                🌷
+            </div>
+            <div class="decoration center-right">
+                🌻
+            </div>
+            <div class="sparkle sparkle1">
+                💖
+            </div>
+            <div class="sparkle sparkle2">
+                💖
+            </div>
+            <div class="sparkle sparkle3">
+                💖
+            </div>
+            <div class="sparkle sparkle4">
+                💖
+            </div>
+            <div class="content">
+                <h1 class="title" id="mainTitle">Öğretmenler Günü Kutlu Olsun</h1>
+                <p class="subtitle" id="subtitle">Değerli öğretmenime...</p>
+                <div class="heart-container"><span class="heart">❤️</span> <span class="heart">💖</span> <span class="heart">❤️</span>
+                </div>
+                <div class="message-box" id="messageBox">
+                    <p id="messageText">Sevgili öğretmenim, bu satırları yazarken gözlerim doluyor. Sizi tanıdığım günden beri hayatım bambaşka bir anlam kazandı. Her sabah sınıfa girerken yüzünüzde gördüğüm o içten gülümseme, her konuşmanızda hissettiğim o sıcacık enerji,
+                        bana sadece ders değil, hayatı sevmeyi öğretti. Karanlık günlerimde benim ışığım oldunuz, kaybolduğumda yolumu buldunuz, ağladığımda gözyaşlarımı silerek bana tekrar gülmeyi öğrettiniz. Siz sadece bir öğretmen değilsiniz, siz benim
+                        hayat öğretmenimsiniz, ruh rehberimsiniz, en kıymetli dostum ve ikinci annemsiniz. Elimden tuttuğunuz her an, bana verdiğiniz her tavsiye, söylediğiniz her güzel söz kalbimde sonsuza kadar yaşayacak. Biliyorum ki yaşımın ilerleyen
+                        yıllarında da sizin bana kattıklarınızı hep hatırlayacak ve "şu ana kadar gelebilmemin sebebi o muhteşem öğretmenimdi" diyeceğim. Siz benim kahramanımsınız, ilham kaynağımsınız ve en büyük şansımsınız. Sizin gibi mükemmel, fedakar,
+                        sevgi dolu bir öğretmene sahip olduğum için Rabbime her gün şükrediyorum. Yüreğiniz ne kadar güzelse, kalbiniz o kadar temiz. Bu dünyada sizin gibi değerli insanlar çok az. Lütfen bilin ki siz benim için her şeysiniz ve sizi sonsuza
+                        kadar kalbimde taşıyacağım. Öğretmenler Günü'nüz kutlu olsun canım öğretmenim! Sizi çok ama çok seviyorum! 🌟💖🌹✨💕🥹</p>
+                </div>
+                <h2 class="teacher-name" id="teacherName">Sevgili Öğretmenim</h2>
+                <p class="signature" id="signature">Sevgi ve saygılarımla, öğrenciniz Aslı Korkmaz</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        const defaultConfig = {
+            background_color: '#e8eaf6',
+            card_color: '#ffffff',
+            text_color: '#1a237e',
+            accent_color: '#3f51b5',
+            message_bg_color: '#f3f4fb',
+            font_family: 'Georgia',
+            font_size: 16,
+            main_title: 'Öğretmenler Günü Kutlu Olsun',
+            subtitle: 'Değerli öğretmenime...',
+            message_text: 'Sevgili öğretmenim, bu satırları yazarken gözlerim doluyor. Sizi tanıdığım günden beri hayatım bambaşka bir anlam kazandı. Her sabah sınıfa girerken yüzünüzde gördüğüm o içten gülümseme, her konuşmanızda hissettiğim o sıcacık enerji, bana sadece ders değil, hayatı sevmeyi öğretti. Karanlık günlerimde benim ışığım oldunuz, kaybolduğumda yolumu buldunuz, ağladığımda gözyaşlarımı silerek bana tekrar gülmeyi öğrettiniz. Siz sadece bir öğretmen değilsiniz, siz benim hayat öğretmenimsiniz, ruh rehberimsiniz, en kıymetli dostum ve ikinci annemsiniz. Elimden tuttuğunuz her an, bana verdiğiniz her tavsiye, söylediğiniz her güzel söz kalbimde sonsuza kadar yaşayacak. Biliyorum ki yaşımın ilerleyen yıllarında da sizin bana kattıklarınızı hep hatırlayacak ve "şu ana kadar gelebilmemin sebebi o muhteşem öğretmenimdi" diyeceğim. Siz benim kahramanımsınız, ilham kaynağımsınız ve en büyük şansımsınız. Sizin gibi mükemmel, fedakar, sevgi dolu bir öğretmene sahip olduğum için Rabbime her gün şükrediyorum. Yüreğiniz ne kadar güzelse, kalbiniz o kadar temiz. Bu dünyada sizin gibi değerli insanlar çok az. Lütfen bilin ki siz benim için her şeysiniz ve sizi sonsuza kadar kalbimde taşıyacağım. Öğretmenler Günü\'nüz kutlu olsun canım öğretmenim! Sizi çok ama çok seviyorum! 🌟💖🌹✨💕🥹',
+            teacher_name: 'Sevgili Öğretmenim',
+            signature: 'Sevgi ve saygılarımla, öğrenciniz Aslı Korkmaz'
+        };
+
+        async function onConfigChange(config) {
+            const container = document.querySelector('.container');
+            const card = document.getElementById('card');
+            const mainTitle = document.getElementById('mainTitle');
+            const subtitle = document.getElementById('subtitle');
+            const messageBox = document.getElementById('messageBox');
+            const messageText = document.getElementById('messageText');
+            const teacherName = document.getElementById('teacherName');
+            const signature = document.getElementById('signature');
+
+            const customFont = config.font_family || defaultConfig.font_family;
+            const baseFontStack = 'Georgia, serif';
+            const baseSize = config.font_size || defaultConfig.font_size;
+
+            container.style.backgroundColor = config.background_color || defaultConfig.background_color;
+            card.style.backgroundColor = config.card_color || defaultConfig.card_color;
+
+            mainTitle.textContent = config.main_title || defaultConfig.main_title;
+            mainTitle.style.color = config.text_color || defaultConfig.text_color;
+            mainTitle.style.fontFamily = `${customFont}, ${baseFontStack}`;
+            mainTitle.style.fontSize = `${baseSize * 2.625}px`;
+
+            subtitle.textContent = config.subtitle || defaultConfig.subtitle;
+            subtitle.style.color = config.text_color || defaultConfig.text_color;
+            subtitle.style.fontFamily = `${customFont}, ${baseFontStack}`;
+            subtitle.style.fontSize = `${baseSize * 1.375}px`;
+
+            messageBox.style.backgroundColor = config.message_bg_color || defaultConfig.message_bg_color;
+
+            messageText.textContent = config.message_text || defaultConfig.message_text;
+            messageText.style.color = config.text_color || defaultConfig.text_color;
+            messageText.style.fontFamily = `${customFont}, ${baseFontStack}`;
+            messageText.style.fontSize = `${baseSize * 1.125}px`;
+
+            teacherName.textContent = config.teacher_name || defaultConfig.teacher_name;
+            teacherName.style.color = config.accent_color || defaultConfig.accent_color;
+            teacherName.style.fontFamily = `${customFont}, ${baseFontStack}`;
+            teacherName.style.fontSize = `${baseSize * 1.75}px`;
+
+            signature.textContent = config.signature || defaultConfig.signature;
+            signature.style.color = config.text_color || defaultConfig.text_color;
+            signature.style.fontFamily = `${customFont}, ${baseFontStack}`;
+            signature.style.fontSize = `${baseSize * 1.25}px`;
+        }
+
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [{
+                    get: () => config.background_color || defaultConfig.background_color,
+                    set: (value) => {
+                        config.background_color = value;
+                        window.elementSdk.setConfig({
+                            background_color: value
+                        });
+                    }
+                }, {
+                    get: () => config.card_color || defaultConfig.card_color,
+                    set: (value) => {
+                        config.card_color = value;
+                        window.elementSdk.setConfig({
+                            card_color: value
+                        });
+                    }
+                }, {
+                    get: () => config.text_color || defaultConfig.text_color,
+                    set: (value) => {
+                        config.text_color = value;
+                        window.elementSdk.setConfig({
+                            text_color: value
+                        });
+                    }
+                }, {
+                    get: () => config.accent_color || defaultConfig.accent_color,
+                    set: (value) => {
+                        config.accent_color = value;
+                        window.elementSdk.setConfig({
+                            accent_color: value
+                        });
+                    }
+                }, {
+                    get: () => config.message_bg_color || defaultConfig.message_bg_color,
+                    set: (value) => {
+                        config.message_bg_color = value;
+                        window.elementSdk.setConfig({
+                            message_bg_color: value
+                        });
+                    }
+                }],
+                borderables: [],
+                fontEditable: {
+                    get: () => config.font_family || defaultConfig.font_family,
+                    set: (value) => {
+                        config.font_family = value;
+                        window.elementSdk.setConfig({
+                            font_family: value
+                        });
+                    }
+                },
+                fontSizeable: {
+                    get: () => config.font_size || defaultConfig.font_size,
+                    set: (value) => {
+                        config.font_size = value;
+                        window.elementSdk.setConfig({
+                            font_size: value
+                        });
+                    }
+                }
+            };
+        }
+
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ['main_title', config.main_title || defaultConfig.main_title],
+                ['subtitle', config.subtitle || defaultConfig.subtitle],
+                ['message_text', config.message_text || defaultConfig.message_text],
+                ['teacher_name', config.teacher_name || defaultConfig.teacher_name],
+                ['signature', config.signature || defaultConfig.signature]
+            ]);
+        }
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities,
+                mapToEditPanelValues
+            });
+        }
+    </script>
+    <script>
+        (function() {
+            function c() {
+                var b = a.contentDocument || a.contentWindow.document;
+                if (b) {
+                    var d = b.createElement('script');
+                    d.innerHTML = "window.__CF$cv$params={r:'9a37fca525ff6846',t:'MTc2Mzk3NzY2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+                    b.getElementsByTagName('head')[0].appendChild(d)
+                }
+            }
+            if (document.body) {
+                var a = document.createElement('iframe');
+                a.height = 1;
+                a.width = 1;
+                a.style.position = 'absolute';
+                a.style.top = 0;
+                a.style.left = 0;
+                a.style.border = 'none';
+                a.style.visibility = 'hidden';
+                document.body.appendChild(a);
+                if ('loading' !== document.readyState) c();
+                else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c);
+                else {
+                    var e = document.onreadystatechange || function() {};
+                    document.onreadystatechange = function(b) {
+                        e(b);
+                        'loading' !== document.readyState && (document.onreadystatechange = e, c())
+                    }
+                }
+            }
+        })();
+    </script>
+</body>
+
+</html>
